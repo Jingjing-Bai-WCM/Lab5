@@ -1,0 +1,117 @@
+---
+title: "Lab5"
+author: "J Bai"
+date: "10/10/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Activities
+### 1. Matrix and vector multiplication: write a function that will multiply a matrix and a vector (without built-in matrix multiplication function). A%*%B is not allowed.
+```{r}
+mat_vec_mult <- function(mat, vec) {
+
+  n <- nrow(mat)
+  number_of_column <- ncol(mat)
+  if(number_of_column != length(vec)) {
+    stop("non-conformable arguments")
+  }
+  result <- matrix(nrow = n, ncol = 1)
+  for(i in 1:n) {
+    result[i,1] <- sum(mat[i,] * vec)
+  }
+  return(result)
+  
+}
+A = matrix(1:12, nrow = 4)
+b <- c(1,2,3)
+
+mat_vec_mult(A, b)
+
+# teacher's answer
+teacher_version_mat_vec_mult <- function(A, x) {
+  m <- nrow(A)
+  n <- ncol(A)
+  y <- matrix(0, nrow = m)
+  for(j in 1:n) {
+    for(i in 1:m) {
+      y[i] = y[i] + A[i,j]*x[j]
+    }
+  }
+  return(y)
+}
+teacher_version_mat_vec_mult(A, b)
+```
+
+
+### 2.Suppose you are betting that you get at least one six in 4 throws of a die. Write a function that simulates one round of the game and prints out whether you win or lose.
+```{r}
+betting <- function(guess, throws) {
+  # at least one "guess"" appears in "throws" throws of a die.
+  for(i in 1:throws) {
+    result <- rolling()
+    print(result)
+    if(guess == result) {
+      return("You Win")
+    }
+  }
+  return("You Lose")
+  
+  
+}
+
+rolling <- function() {
+  sample(1:6, 1, replace = T)
+}
+
+betting(6, 4)
+
+
+```
+
+## Assignment
+### 1. Modify your function from the Problem 2 (Lab5 Activity). The function should simulate N rounds of the game (instead of just one) and return the proportion of times you win the bet. Run the function with N = 1000 and 10000.
+```{r}
+betting <- function(guess, throws) {
+  countWin <- 0
+  for(i in 1:throws) {
+    result <- rolling()
+    if(guess == result) {
+      countWin = countWin + 1
+    }
+  }
+  return(countWin/throws)
+  
+  
+}
+
+rolling <- function() {
+  sample(1:6, 1, replace = T)
+}
+
+betting(6, 1000) # guess at least one 6 in 1000 throws of a die
+betting(6, 10000) # guess at least one 6 in 10000 throws of a die
+```
+
+### 2. Write a function that will find the smallest element of a given vector (built-in min() is not allowed). Your function should return the smallest element and index of the smallest element. 
+Ex. vector is (1, 4, 2, 0, 5), then the smallest element - 0 and index is 4.
+```{r}
+minElementAndIndex <- function(v) {
+  small <- v[1]
+  for(i in 1:length(v)) {
+    if(v[i] < small) {
+      small = v[i]
+      result <- c(small, i)
+    }
+  }
+  print(paste("the smallest element is ", result[1], " and index is ", result[2]))
+  return(result)
+}
+
+minElementAndIndex(c(1,4,2,0,5))
+```
+
+
