@@ -50,16 +50,16 @@ teacher_version_mat_vec_mult(A, b)
 ### 2.Suppose you are betting that you get at least one six in 4 throws of a die. Write a function that simulates one round of the game and prints out whether you win or lose.
 ```{r}
 betting <- function(guess, throws) {
-  # at least one "guess"" appears in "throws" throws of a die.
+  # for one round, at least one "guess"" appears in "throws" throws of a die.
   for(i in 1:throws) {
     result <- rolling()
-    print(result)
     if(guess == result) {
-      return("You Win")
+      #print("You Win")
+      return(1)
     }
   }
-  return("You Lose")
-  
+  #print("You Lose")
+  return(0)
   
 }
 
@@ -75,25 +75,18 @@ betting(6, 4)
 ## Assignment
 ### 1. Modify your function from the Problem 2 (Lab5 Activity). The function should simulate N rounds of the game (instead of just one) and return the proportion of times you win the bet. Run the function with N = 1000 and 10000.
 ```{r}
-betting <- function(guess, throws) {
+bettingN <- function(guess, throws, N) {
+  # play the game for N rounds
+  # for each round, at least one "guess"" appears in "throws" throws of a die.
   countWin <- 0
-  for(i in 1:throws) {
-    result <- rolling()
-    if(guess == result) {
-      countWin = countWin + 1
-    }
+  for(i in 1:N) {
+    countWin = countWin + betting(guess, throws)
   }
-  return(countWin/throws)
-  
-  
+  return(countWin/N)
 }
 
-rolling <- function() {
-  sample(1:6, 1, replace = T)
-}
-
-betting(6, 1000) # guess at least one 6 in 1000 throws of a die
-betting(6, 10000) # guess at least one 6 in 10000 throws of a die
+bettingN(6, 4, 1000) 
+bettingN(6, 4, 10000) 
 ```
 
 ### 2. Write a function that will find the smallest element of a given vector (built-in min() is not allowed). Your function should return the smallest element and index of the smallest element. 
